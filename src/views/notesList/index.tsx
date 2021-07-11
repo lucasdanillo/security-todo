@@ -1,24 +1,40 @@
-import React from 'react';
-import ToDoCardComponet from '../../components/todoCard';
+import React, { useEffect, useState } from 'react';
+import TodoList from '../../components/todoList';
+
+interface Todo {
+  id: string;
+  title: string;
+  text: string;
+}
 
 function NotesList() {
 
-  function handleDeleteCard(id:string){
-    console.log(id);
-  }
+  const [todoList, setTodoList] = useState<Todo[]>([]);
 
-  function handleEditCard(id:string){
-    console.log(id);
-  }
+  var staticTodoList = [
+    {
+      id: '1',
+      title: 'Card 01',
+      text: 'Some quick example text to build on the card title and make up the bulk of the cards content'
+    },
+    {
+      id: '2',
+      title: 'Card 02',
+      text: 'Some quick example text to build on the card title and make up the bulk of the cards content'
+    },
+    {
+      id: '3',
+      title: 'Card 03',
+      text: 'Some quick example text to build on the card title and make up the bulk of the cards content'
+    },
+  ]
+
+  useEffect(() => {
+    setTodoList(staticTodoList);
+  }, []);
 
   return (
-      <ToDoCardComponet
-        id='1'
-        title="Card Title"
-        text="Some quick example text to build on the card title and make up the bulk of the card's content."
-        onEdit={handleEditCard}
-        onDelete={handleDeleteCard}
-      />
+      <TodoList list={todoList}/>
   );
 }
 
