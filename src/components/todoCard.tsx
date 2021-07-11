@@ -9,7 +9,7 @@ interface Props {
     onDelete(id: string): void;
 }
 
-function ToDoCardComponet(props: Props) {
+function ToDoCardComponent(props: Props) {
   return (
       <Card style={{width: '20rem'}}>
         <Card.Body>
@@ -26,4 +26,4 @@ function ToDoCardComponet(props: Props) {
   );
 }
 
-export default ToDoCardComponet;
+export default ToDoCardComponent;
