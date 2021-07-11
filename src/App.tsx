@@ -1,11 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SignIn from './views/signIn';
+import Routes from './routes';
 
 function App() {
   return (
-    <SignIn/>
+    <Routes/>
   );
 }
 
