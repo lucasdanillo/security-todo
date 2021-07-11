@@ -54,8 +54,16 @@ function SignIn() {
   }
 
   return (
-    <Container>
-      <Form onSubmit={handleSignIn}>
+    <Container style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100vw',
+      height: '100vh',
+    }}>
+      <Form onSubmit={handleSignIn} style={{
+        width: '45%'
+      }}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>User</Form.Label>
           <Form.Control type="email" placeholder="User" onChange={(e) => setEmail(e.target.value)} />
