@@ -1,11 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Card } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import TodoList from '../../components/todoList';
 
+interface Todo {
+    id: string;
+    title: string;
+    text: string;
+}
+
 const UserDetails = (props: any) => {
 
+    var staticTodoList = [
+        { id: '1', title: 'Nota 1', text: 'Descrição 1' },
+        { id: '2', title: 'Nota 2', text: 'Descrição 2' },
+        { id: '3', title: 'Nota 3', text: 'Descrição 3' }]
+
     const user = props.location.state.user;
+
+    const [todoList, setTodoList] = useState<Todo[]>([]);
 
     const history = useHistory();
 
@@ -17,10 +30,9 @@ const UserDetails = (props: any) => {
         console.log(id);
     }
 
-    const todos = [{
-        id: '1', title: 'Nota 1', text: 'Descrição 1'},
-        { id: '2', title: 'Nota 2', text: 'Descrição 2' },
-        { id: '3', title: 'Nota 3', text: 'Descrição 3' }]
+    useEffect(() => {
+        setTodoList(staticTodoList);
+    }, []);
 
     return (
         <Container>
@@ -32,7 +44,7 @@ const UserDetails = (props: any) => {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <TodoList list={todos} />
+            <TodoList list={todoList} />
             <Button variant="primary" type="button" onClick={() => history.goBack()} >
                 Voltar
             </Button>
