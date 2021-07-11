@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
 function SignIn() {
@@ -8,6 +8,12 @@ function SignIn() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  function navigateToSignUp() {
+    history.push({
+      pathname: '/signup',
+    });
+  }
 
   async function handleSignIn() {
 
@@ -72,9 +78,14 @@ function SignIn() {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
-        <Button variant="primary" type="submit" >
-          Login
-        </Button>
+        <Row style={{justifyContent: 'space-between', padding: '1rem'}}>
+          <Button variant="primary" type="submit" >
+            Login
+          </Button>
+          <Button variant="light" type="submit" onClick={() => navigateToSignUp()}>
+            Sign Up
+          </Button>
+        </Row>
       </Form>
     </Container>
   );

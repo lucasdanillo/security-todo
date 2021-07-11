@@ -3,6 +3,7 @@ import Switch from 'react-bootstrap/esm/Switch';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import Navbar from './components/navbar';
 import SignIn from './views/signIn';
+import SignUp from './views/signUp'
 import NotesList from './views/notesList';
 import UsersList from './views/usersList';
 import UserDetails from './views/userDetails';
@@ -59,7 +60,7 @@ export default function Routes() {
             <Switch>
                 <Route exact path="/" component={SignIn} />
                 <Route path="/signin" component={SignIn} />
-                <Route path="/signup" />
+                <Route path="/signup" component={SignUp}/>
                 {
                     currentUser &&
                     <>
