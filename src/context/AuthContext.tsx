@@ -8,8 +8,6 @@ export function AuthContext(props: any) {
 
     const [currentUser, setCurrentUser] = useState<User>();
 
-    useEffect(() => {setCurrentUser({role: UserRole.USER, accessToken: '024238'})}, [])
-
     return (
         <GlobalContext.Provider value={{ setCurrentUser, currentUser }}>
             {props.children}

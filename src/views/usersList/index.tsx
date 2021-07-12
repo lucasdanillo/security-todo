@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Container } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { User } from '../../models/user';
+import api from '../../services/api';
 
 const UsersList = () => {
 
   const history = useHistory();
 
-  const users = [
-    { id: '1', email: 'lucas@gmail.com', firstName: 'Lucas', lastName: 'Danillo' },
-    { id: '2', email: 'gisele@gmail.com', firstName: 'Gisele', lastName: 'Ribeiro' },
-    { id: '3', email: 'arthur@gmail.com', firstName: 'Arthur', lastName: 'Basílio' }];
+  const [users, setUsers] = useState<User[]>();
 
   useEffect(() => { }) //requisição para buscar usuários
 
@@ -20,6 +19,22 @@ const UsersList = () => {
     });
   }
 
+  function handleDelete(id: string | undefined) {
+    api.delete('users')
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+
+  function loadUsers() {
+    api.get('users')
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    loadUsers();
+  }, [])
+
   return (
     <Container>
       <Table striped bordered hover>
@@ -29,9 +44,16 @@ const UsersList = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <tr key={user.id} onClick={() => navigateToUserDetails(user)}>
-              <td>{user.email}</td>
+              <td style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'row'
+              }}>
+                <p>{user.email}</p>
+                <Button variant="danger" onClick={() => handleDelete(user?.id)}>excluir</Button>
+              </td>
             </tr>
           ))}
         </tbody>

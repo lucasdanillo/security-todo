@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Form, Button, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { GlobalContext } from '../../context/AuthContext';
+import api from '../../services/api';
 
 function SignIn() {
 
   const history = useHistory();
+
+  const { setCurrentUser } = useContext<any>(GlobalContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,46 +21,14 @@ function SignIn() {
 
   async function handleSignIn() {
 
-    if (password === '1') {
-      history.push('/users');
-    }
-    else {
+    api.post('users/authentication', {
+      email,
+      password
+    }).then(res => {
+      setCurrentUser(res.data.userPayload);
       history.push('/todos');
-    }
-
-    //   const dados = {
-    //     email: email,
-    //     senha: password,
-    //   }
-
-    //   const dadosCrypto = CryptoJS.AES.encrypt(JSON.stringify(dados), "secret", {}).toString();
-
-    //   try {
-    //     const data = await req(
-    //       `
-    //         mutation{
-    //           loginAdmin(
-    //             data: "${dadosCrypto}"
-    //           ){
-    //             accessToken
-    //             refreshToken
-    //           }
-    //         }
-    //       `
-    //       , true)
-    //     if (data.data) {
-    //       dispatch(Auth(data.data.loginAdmin || { accessToken: "", refreshToken: "" }));
-    //       setLoading(false);
-    //       navigate('/produtos');
-    //     } else if (data.errors) {
-    //       toast.error(data.errors[0].message);
-    //     }
-    //   } catch (err) {
-    //     alert(err);
-    //   }
-    //   setLoading(false)
-    // }
-    
+    })
+    .catch(err => console.log(err));
   }
 
   return (
@@ -67,7 +39,7 @@ function SignIn() {
       width: '100vw',
       height: '100vh',
     }}>
-      <Form onSubmit={handleSignIn} style={{
+      <Form style={{
         width: '45%'
       }}>
         <Form.Group controlId="formBasicEmail">
@@ -79,10 +51,10 @@ function SignIn() {
           <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
         <Row style={{justifyContent: 'space-between', padding: '1rem'}}>
-          <Button variant="primary" type="submit" >
+          <Button variant="primary" type="button" onClick={handleSignIn} >
             Login
           </Button>
-          <Button variant="light" type="submit" onClick={() => navigateToSignUp()}>
+          <Button variant="light" type="button" onClick={() => navigateToSignUp()}>
             Sign Up
           </Button>
         </Row>

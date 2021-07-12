@@ -23,7 +23,6 @@ export default function Routes() {
             <Route
                 {...rest}
                 render={(props) => {
-                    console.log(currentUser)
                     return currentUser?.accessToken ? (
                         <Component {...props} />
                     ) : (
@@ -43,7 +42,6 @@ export default function Routes() {
             <Route
                 {...rest}
                 render={(props) => {
-                    console.log(currentUser)
                     return currentUser?.accessToken && currentUser?.role === UserRole.ADMIN ? (
                         <Component {...props} />
                     ) : (
@@ -68,7 +66,7 @@ export default function Routes() {
                         <ProtectedAdminRoute path="/users" component={UsersList} />
                         <ProtectedAdminRoute path='/userdetails' component={UserDetails} />
                     </>
-                }
+                }   
 
             </Switch>
         </BrowserRouter>

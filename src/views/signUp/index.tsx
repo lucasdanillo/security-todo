@@ -1,14 +1,30 @@
 import { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap'; 
+import { useHistory } from 'react-router-dom';
+import { UserRole } from '../../models/user';
+import api from '../../services/api';
 
 function SignUp() {
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const history = useHistory();
+
   async function handleSignUp(){
-    console.log(email);
-    console.log(password);
+    api.post('users', {
+      email,
+      password,
+      firstName,
+      lastName,
+      role: UserRole.ADMIN
+    }).then(res => {
+      alert(res.data.message);
+      history.push('/signin');
+    })
+    .catch(err => console.log(err));
   }
 
   return (
@@ -19,9 +35,17 @@ function SignUp() {
       width: '100vw',
       height: '100vh',
     }}>
-      <Form onSubmit={handleSignUp} style={{
+      <Form style={{
         width: '45%'
       }}>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>First name</Form.Label>
+          <Form.Control type="text" placeholder="First name" onChange={(e) => setFirstName(e.target.value)}/>
+        </Form.Group>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Last name</Form.Label>
+          <Form.Control type="text" placeholder="Last name" onChange={(e) => setLastName(e.target.value)}/>
+        </Form.Group>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>User</Form.Label>
           <Form.Control type="email" placeholder="User" onChange={(e) => setEmail(e.target.value)}/>
@@ -30,7 +54,7 @@ function SignUp() {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={() => handleSignUp()} style={{ marginTop: '1rem'}}>
+        <Button variant="primary" type="button" onClick={() => handleSignUp()} style={{ marginTop: '1rem'}}>
           Save
         </Button>
       </Form>
