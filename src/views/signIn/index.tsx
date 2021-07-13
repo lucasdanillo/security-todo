@@ -28,7 +28,7 @@ function SignIn() {
       setCurrentUser(res.data.userPayload);
       history.push('/todos');
     })
-    .catch(err => console.log(err));
+    .catch(err => alert(err.message));
   }
 
   return (

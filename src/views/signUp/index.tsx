@@ -24,7 +24,7 @@ function SignUp() {
       alert(res.data.message);
       history.push('/signin');
     })
-    .catch(err => console.log(err));
+    .catch(err => alert(err.message));
   }
 
   return (
