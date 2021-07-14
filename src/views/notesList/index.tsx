@@ -26,7 +26,7 @@ function NotesList() {
   const loadTodoList = () => {
     api.get('users/todos', {
       headers: {
-        authorization: currentUser.accessToken
+        authorization: currentUser?.accessToken
       }
     })
       .then(res => setTodoList(res.data.todos))
@@ -36,7 +36,7 @@ function NotesList() {
   function onDelete(todo: Todo) {
     api.delete(`todos/${todo.id}`, {
       headers: {
-        authorization: currentUser.accessToken
+        authorization: currentUser?.accessToken
       }
     })
       .then(res => loadTodoList())

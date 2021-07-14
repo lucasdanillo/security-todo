@@ -19,13 +19,13 @@ const UsersList = () => {
   }
 
   function handleDelete(id: string | undefined) {
-    api.delete(`users/${id}`, { headers: { authorization: currentUser.accessToken } })
+    api.delete(`users/${id}`, { headers: { authorization: currentUser?.accessToken } })
       .then(() => setUsers(users?.filter(user => user.id !== id)))
       .catch((err) => alert(err.response.data.message));
   }
 
   function loadUsers() {
-    api.get('users', { headers: { authorization: currentUser.accessToken } })
+    api.get('users', { headers: { authorization: currentUser?.accessToken } })
       .then((res) => setUsers(res.data.users))
       .catch((err) => alert(err.response.data.message));
   }

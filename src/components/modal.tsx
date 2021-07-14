@@ -44,7 +44,7 @@ const ModalComponent = forwardRef((props: Props, ref: any) => {
     function handleSaveToDo() {
         api.post('todos', { title, description }, {
             headers: {
-                authorization: currentUser.accessToken
+                authorization: currentUser?.accessToken
             }
         })
             .then(res => onSuccess())
@@ -54,7 +54,7 @@ const ModalComponent = forwardRef((props: Props, ref: any) => {
     function handleUpdateToDo() {
         api.put(`todos/${id}`, { title, description }, {
             headers: {
-                authorization: currentUser.accessToken
+                authorization: currentUser?.accessToken
             }
         })
             .then(res => onSuccess())
