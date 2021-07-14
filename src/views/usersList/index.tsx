@@ -20,14 +20,14 @@ const UsersList = () => {
 
   function handleDelete(id: string | undefined) {
     api.delete(`users/${id}`, { headers: { authorization: currentUser.accessToken } })
-      .then((res) => setUsers(users?.filter(user => user.id !== id)))
-      .catch((err) => alert(err.message));
+      .then(() => setUsers(users?.filter(user => user.id !== id)))
+      .catch((err) => alert(err.response.data.message));
   }
 
   function loadUsers() {
     api.get('users', { headers: { authorization: currentUser.accessToken } })
       .then((res) => setUsers(res.data.users))
-      .catch((err) => alert(err.message));
+      .catch((err) => alert(err.response.data.message));
   }
 
   useEffect(() => {
@@ -35,31 +35,37 @@ const UsersList = () => {
   }, [])
 
   return (
-    <Container>
+    <Container style={{
+      marginTop: 20
+    }}>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>UserName</th>
+            <th>Users</th>
           </tr>
         </thead>
         <tbody>
           {users?.map((user) => (
-            <tr key={user.id} onClick={() => navigateToUserDetails(user)}>
+            <tr key={user.id}>
               <td style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 flexDirection: 'row'
               }}>
                 <p>{user.email}</p>
-                <Button variant="danger" onClick={() => handleDelete(user?.id)}>excluir</Button>
+                <div style={{
+                  width: '15%',
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}>
+                  <Button variant="primary" onClick={() => navigateToUserDetails(user)}>Ver</Button>
+                  <Button variant="danger" onClick={() => handleDelete(user?.id)}>Excluir</Button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <Button variant="primary" type="button" onClick={() => history.goBack()}>
-        Logout
-      </Button>
     </Container>
   );
 }

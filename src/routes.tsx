@@ -9,6 +9,7 @@ import UsersList from './views/usersList';
 import UserDetails from './views/userDetails';
 import { GlobalContext } from './context/AuthContext';
 import { UserRole } from './models/user';
+import Notfound from './views/NotFound';
 
 export default function Routes() {
 
@@ -56,18 +57,25 @@ export default function Routes() {
         <BrowserRouter>
             {currentUser?.accessToken ? <Navbar isAdmin={currentUser?.role === UserRole.ADMIN} /> : <></>}
             <Switch>
-                <Route exact path="/" component={SignIn} />
-                <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp}/>
+                <Route exact path="/" component={NotesList} />
                 {
-                    currentUser &&
+                    !currentUser?.accessToken &&
                     <>
-                        <ProtectedRoute path="/todos" component={NotesList} />
-                        <ProtectedAdminRoute path="/users" component={UsersList} />
-                        <ProtectedAdminRoute path='/userdetails' component={UserDetails} />
+                        <Route path="/signin" component={SignIn} />
+                        <Route path="/signup" component={SignUp} />
                     </>
-                }   
-
+                }
+                
+                <ProtectedRoute path="/todos" component={NotesList} />
+                <ProtectedAdminRoute path="/users" component={UsersList} />
+                <ProtectedAdminRoute path='/userdetails' component={UserDetails} />
+                {
+                    currentUser?.accessToken ? 
+                        <Redirect to="/todos" />
+                        :
+                        <Redirect to="/signin" />
+                }
+                
             </Switch>
         </BrowserRouter>
     );

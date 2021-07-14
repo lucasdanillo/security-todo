@@ -3,6 +3,7 @@ import { Form, Button, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { GlobalContext } from '../../context/AuthContext';
 import api from '../../services/api';
+import { setLocalUser } from '../../utils/localStorageService';
 
 function SignIn() {
 
@@ -26,9 +27,10 @@ function SignIn() {
       password
     }).then(res => {
       setCurrentUser(res.data.userPayload);
+      setLocalUser(res.data.userPayload);
       history.push('/todos');
     })
-    .catch(err => alert(err.message));
+    .catch(err => alert(err.response.data.message));
   }
 
   return (
